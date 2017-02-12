@@ -9,6 +9,7 @@ import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
+import org.apache.spark.SparkContext._
 import scala.collection.JavaConversions
 import scala.io.Source
 
@@ -45,7 +46,7 @@ object Lab03 {
 
         // Sort Hash Tag Frequency, Get Top 100
         val freqFlip = hashFreq.map(x => (x(1), x(0)))
-        val top100 = freqFlip.sortBy(_._1).reverse.take(100)
+        val top100 = freqFlip.sortByKey(false)
 
         // Write Output File
         val writer = new PrintWriter(new File("output.txt"))
