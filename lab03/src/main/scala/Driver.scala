@@ -45,7 +45,7 @@ object Lab03 {
         val hashFreq = hashKeyValue.reduceByKey((x,y) => x+y)
 
         // Sort Hash Tag Frequency, Get Top 100
-        val top100 = Array(hashFreq).sortWith(_._2 < _._2)
+        val top100 = hashFreq.collect.toSeq.sortWith(_._2 > _._2).take(100)
 
         // Write Output File
         val writer = new PrintWriter(new File("output.txt"))
