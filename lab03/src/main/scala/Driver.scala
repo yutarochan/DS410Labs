@@ -45,7 +45,7 @@ object Lab03 {
 
         // Sort Hash Tag Frequency, Get Top 100
         val freqFlip = hashFreq.map(x => (x(1), x(0)))
-        val top100 = freqFlip.sortByKey(false).take(100)
+        val top100 = freqFlip.sortBy(_._1).reverse.take(100)
 
         // Write Output File
         val writer = new PrintWriter(new File("output.txt"))
