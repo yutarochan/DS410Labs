@@ -1,5 +1,5 @@
 /*
- * DS410 - Lab 04: Twitter Hashtag Counts
+ * DS410 - Lab 04: Network Clustering Coefficient
  * Author: Yuya Jeremy Ong (yjo5006@psu.edu)
  */
 import java.io.PrintWriter
@@ -15,7 +15,7 @@ import scala.collection.JavaConversions
 import scala.io.Source
 import scala.util.Try
 
-object Lab03 {
+object Lab04 {
     // Application Specific Variables
 	private final val SPARK_MASTER = "yarn-client"
 	private final val APPLICATION_NAME = "lab04"
@@ -39,13 +39,37 @@ object Lab03 {
 		val item  = lines.map(line => line.split(","))
 		val string_item = item.filter( i => Try(i(1).toInt).isSuccess && Try(i(2).toInt).isSuccess)
 
-		print(string_item.take(1))
+		// Parse Edge ID Values
+		val int_item = string_item.map( cs => (cs(1).toInt, cs(2).toInt)).filter( cs => cs._1 != cs._2)
 
-        // Write Output File
-		/*
+		// Sort Edge Values
+		val edge_increase = int_item.map(cs => (if (cs._1 < cs._2) (cs._1, cs._2); else (cs._2, cs._1))).distinct()
+		val edge_decrease = int_item.map(cs => (if (cs._1 < cs._2) (cs._2, cs._1); else (cs._1, cs._2))).distinct()
+
+		// Join Edge Inc & Dec
+		val two_edge = edge_increase.join(edge_decrease).map(cs => (cs._2, cs._1))
+
+		// Formulate Triangles
+		val extended_edge_decrease = edge_decrease.map(cs => (cs, 1))
+		val triangle = extended_edge_decrease.join(two_edge)
+
+		// Aggregate Edges by Node ID
+		// FIXME: Maybe I should use join here...?
+		val edgeAgg = triangle.map(x => (x._2._2, x._1)).distinct().groupByKey.mapValues(_.toList)
+
+		// Compute Triangle Per Node
+		val triCount = edgeAgg.map(x => (x._1, x._2.length))
+
+		// Count List of Neighbors Per Node
+		val nodeCount = edgeAgg.map(x => (x._1, (x._2.flatten {case (a,b) => List(a,b)}).distinct.length ))
+
+		// Aggregate and Compute Clustering Coefficient
+		// (Node_ID, (Triangle Count, Neighbor Count))
+		val result = triCount.join(nodeCount).sortByKey(false)
+
+		// Generate Output File
         val writer = new PrintWriter(new File("output.txt"))
-        top100.foreach(x => writer.write(x._1 + "\t" + x._2 + "\n"))
+        result.foreach(x => writer.write(x._1 + "\t" + x._2._1 + "\t" + x._2._2 + "\n"))
         writer.close()
-		*/
     }
 }
