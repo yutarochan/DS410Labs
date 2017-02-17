@@ -54,7 +54,6 @@ object Lab04 {
 		val triangle = extended_edge_decrease.join(two_edge)
 
 		// Aggregate Edges by Node ID
-		// FIXME: Maybe I should use join here...
 		val edgeAgg = triangle.map(x => (x._2._2, x._1)).distinct().groupByKey.mapValues(_.toList)
 
 		// Compute Triangle Per Node
@@ -65,7 +64,9 @@ object Lab04 {
 
 		// Aggregate and Compute Clustering Coefficient
 		// (Node_ID, (Triangle Count, Neighbor Count))
-		val result = triCount.join(nodeCount).sortByKey(false).map(x => (x._1, x._2._1, x._2._2)).collect()
+
+		// TODO: Compute the Clustering Coefficient!!!!!
+		val result = triCount.join(nodeCount).sortByKey(false).map(x => (x._1, x._2._1, (x._2._1 / ((x._2._2 * (x._2._2 - 1) * (x._2._2 - 2))/6.0).toDouble)).collect()
 
 		// Generate Output File
         val writer = new PrintWriter(new File("output.txt"))
