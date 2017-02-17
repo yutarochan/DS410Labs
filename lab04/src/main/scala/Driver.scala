@@ -66,7 +66,7 @@ object Lab04 {
 		// (Node_ID, (Triangle Count, Neighbor Count))
 
 		// TODO: Compute the Clustering Coefficient!!!!!
-		val result = triCount.join(nodeCount).sortByKey(false).map(x => (x._1, x._2._1, (x._2._1 / ((x._2._2 * (x._2._2 - 1) * (x._2._2 - 2))/6.0).toDouble))).collect()
+		val result = triCount.join(nodeCount).sortByKey(false).map(x => (x._1, x._2._1, (x._2._1 / ((x._2._2 * (x._2._2 - 1)) / 2.0).toDouble))).collect()
 
 		// Generate Output File
         val writer = new PrintWriter(new File("output.txt"))
