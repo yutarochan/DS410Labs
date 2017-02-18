@@ -60,13 +60,16 @@ object Lab04 {
 		val triCount = edgeAgg.map(x => (x._1, x._2.length))
 
 		// Count List of Neighbors Per Node
-		val nodeCount = edgeAgg.map(x => (x._1, (x._2.flatten {case (a,b) => List(a,b)}).distinct.length ))
+		val inc_group = edge_increase.groupByKey.mapValues(_.toList)
+		val dec_group = edge_decrease.groupByKey.mapValues(_.toList)
+
+		// Merge Increase and Decrease Edges and Get Total Distinct Counts
+		val nodeCount = inc_group.join(dec_group).mapValues(x => (x._1 ++ x._2).distinct.length )
 
 		// Aggregate and Compute Clustering Coefficient
-		// (Node_ID, (Triangle Count, Neighbor Count))
+		// (Node_ID, (Neighbor Count, Triangle Count))
 
-		// TODO: Compute the Clustering Coefficient!!!!!
-		val result = triCount.join(nodeCount).sortByKey(false).map(x => (x._1, x._2._1, (x._2._1 / ((x._2._2 * (x._2._2 - 1)) / 2.0).toDouble))).collect()
+		val result = nodeCount.join(triCount).sortByKey().map(x => (x._1, x._2._1, (x._2._1 / ((x._2._2 * (x._2._2 - 1)) / 2.0).toDouble))).collect()
 
 		// Generate Output File
         val writer = new PrintWriter(new File("output.txt"))
