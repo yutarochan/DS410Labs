@@ -56,8 +56,8 @@ object Lab04 {
 		val triCount = triTuple.flatMap(t => List(t._1, t._2, t._3)).groupBy(identity).mapValues(_.size)
 
 		// Compute Per Node Neighbor Counts
-		val inc_group = edge_inc.groupByKey.mapValues(_.toList)
-		val dec_group = edge_dec.groupByKey.mapValues(_.toList)
+		val inc_group = edge_increase.groupByKey.mapValues(_.toList)
+		val dec_group = edge_decrease.groupByKey.mapValues(_.toList)
 		val nodeCount = inc_group.union(dec_group).groupByKey.mapValues(_.flatMap(x=>x).toList.length)
 
 		// Compute Network Cluster Coefficient
