@@ -24,17 +24,17 @@ object Lab04 {
 	private final val CORE_SITE_CONFIG_PATH = new Path("/usr/hdp/current/hadoop-client/conf/core-site.xml")
 	private final val HDFS_SITE_CONFIG_PATH = new Path("/usr/hdp/current/hadoop-client/conf/hdfs-site.xml")
 
-    	def main(args: Array[String]): Unit = {
-        	// Configure SparkContext
+    def main(args: Array[String]): Unit = {
+        // Configure SparkContext
 		val conf = new SparkConf().setMaster(SPARK_MASTER).setAppName(APPLICATION_NAME)
 		val sc = new SparkContext(conf)
 
-	        // Configure HDFS
+	    // Configure HDFS
 		val configuration = new Configuration();
 		configuration.addResource(CORE_SITE_CONFIG_PATH);
 		configuration.addResource(HDFS_SITE_CONFIG_PATH);
 
-        	// Parse Lines, Filter and Extract Tokens
+        // Parse Lines, Filter and Extract Tokens
 		val lines = sc.textFile("hdfs:/ds410/lab4/CSNNetwork.csv")
 		val item  = lines.map(line => line.split(","))
 		val string_item = item.filter( i => Try(i(1).toInt).isSuccess && Try(i(2).toInt).isSuccess)
@@ -63,9 +63,9 @@ object Lab04 {
 		// Compute Network Cluster Coefficient
 		val results = triCount.fullOuterJoin(nodeCount).mapValues(x => if (x._1 != None) (x._1.get, x._1.get / (x._2.get * (x._2.get-1) / 2.0).toDouble) else (0, 0)).collect()
 
-        	// Generate Output File
-        	val writer = new PrintWriter(new File("output.txt"))
-        	top100.foreach(x => writer.write(x._1 + "\t" + x._2._1 + "\t" + x._2._2 + "\n"))
-        	writer.close()
+        // Generate Output File
+        val writer = new PrintWriter(new File("output.txt"))
+        results.foreach(x => writer.write(x._1 + "\t" + x._2._1 + "\t" + x._2._2 + "\n"))
+        writer.close()
     }
 }
