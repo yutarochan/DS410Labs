@@ -12,6 +12,7 @@ import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.apache.spark.streaming.StreamingContext._
+import org.apache.spark.SparkSession._
 import scala.collection.JavaConversions
 import scala.io.Source
 import scala.util.Try
