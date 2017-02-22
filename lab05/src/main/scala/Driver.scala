@@ -64,17 +64,19 @@ object Lab05 {
         val samples  = lines.map(line => line.split(",").slice(0,4).map(_.toDouble)).zipWithIndex().map(sample => (sample._2, sample._1))
 
         // Broadcast Centroid Parameters to Cluster
-        //val clusters = sc.broadcast(initialCluster(3, 4))
+        // val clusters = sc.broadcast(initialCluster(3, 4))
         val clusters = sc.broadcast(Array((0,Array(5.1,3.5,1.4,0.2)), (1,Array(4.9,3.0,1.4,0.2)), (2,Array(4.7,3.2,1.3,0.2))))
 
-        // Complete this line:
-        // Expected output structure: (sampleID, (clusterID, Distance(sample, cluster))
+		// Compute Node to Centroid Distances
         val dist = samples.flatMap(samp => clusters.value.map(clus => (samp._1, (clus._1, Distance(samp._2, clus._2))) ))
 
+		// Map Samples to Cluster ID
         val labels = dist.reduceByKey((a, b) => (if (a._2 > b._2) b; else a)).map(t => (t._1, t._2._1))
         // (sampleID, clusterID)
 
-        var  new_clusters = Array.ofDim[(Int, Array[Double])](nb_cluster)
+		// Compute New Clusters
+		// TODO: Derive functional approach to compute new clusters.
+        var new_clusters = Array.ofDim[(Int, Array[Double])](nb_cluster)
         for (i <- 0 to nb_cluster-1) {
             val sample_in_cluster = samples.join(labels.filter(i==_._2))
             val total_number = sample_in_cluster.count
@@ -89,10 +91,9 @@ object Lab05 {
         }
 
 		// Generate Output File
-        /*
         val writer = new PrintWriter(new File("output.txt"))
-        result.foreach(x => writer.write(x._1 + "\t" + x._2 + "\t" + x._3 + "\n"))
+		new_cluster.foreach(x => x._2.foreach(y => writer.write(x._1 + ":\t" + y)))
+		// result.foreach(x => writer.write(x._1 + "\t" + x._2 + "\t" + x._3 + "\n"))
         writer.close()
-        */
     }
 }
