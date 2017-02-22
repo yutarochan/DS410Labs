@@ -69,7 +69,7 @@ object Lab05 {
 
         // Complete this line:
         // Expected output structure: (sampleID, (clusterID, Distance(sample, cluster))
-        val dist = samples.map(samp => clusters.value.map(clus => (samp._1.toInt, (clus._1, Distance(samp._2, clus._2))) ))
+        val dist = samples.flatMap(samp => clusters.value.map(clus => (samp._1.toInt, (clus._1, Distance(samp._2, clus._2))).collect() )))
 
         val labels = dist.reduceByKey((a, b) => (if (a._2 > b._2) b; else a)).map(t => (t._1, t._2._1))
         // (sampleID, clusterID)
