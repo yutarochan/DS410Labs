@@ -67,12 +67,12 @@ object Lab05 {
 
         // Complete this line:
         // Expected output structure: (sampleID, (clusterID, Distance(sample, cluster))
-        val dist = samples.map(samp => clusters.value.map(clus => List(samp._1, clus._1, Distance(samp._2, clus._2)) ))
+        val dist = samples.map(samp => clusters.value.map(clus => (samp._1, (clus._1, Distance(samp._2, clus._2))) ))
 
         val labels = dist.reduceByKey((a, b) => (if (a._2 > b._2) b; else a)).map(t => (t._1, t._2._1))
         // (sampleID, clusterID)
 
-        var  new_clusters = ofDim[(Int, Array[Double])](nb_cluster)
+        var  new_clusters = Array.ofDim[(Int, Array[Double])](nb_cluster)
         for (i <- 0 to nb_cluster-1) {
             val sample_in_cluster = samples.join(labels.filter(i==_._2))
             val total_number = sample_in_cluster.count
