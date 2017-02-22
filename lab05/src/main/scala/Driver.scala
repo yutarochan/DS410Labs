@@ -9,7 +9,6 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
 import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.apache.spark.streaming.StreamingContext._
 import scala.collection.JavaConversions._
@@ -60,7 +59,7 @@ object Lab05 {
         val nb_feature = 4
 
         // Import and Parse Dataset
-        val lines = sc.textFile("/ds410/lab5/iris.data")
+        val lines = sc.textFile("hdfs:/ds410/lab5/iris.data")
         val samples  = lines.map(line => line.split(",").slice(0,4).map(_.toDouble)).zipWithIndex().map(sample => (sample._2, sample._1))
 
         // Broadcast Centroid Parameters to Cluster
