@@ -75,7 +75,6 @@ object Lab05 {
         // (sampleID, clusterID)
 
 		// Compute New Clusters
-		// TODO: Derive functional approach to compute new clusters.
         var new_clusters = Array.ofDim[(Int, Array[Double])](nb_cluster)
         for (i <- 0 to nb_cluster-1) {
             val sample_in_cluster = samples.join(labels.filter(i==_._2))
