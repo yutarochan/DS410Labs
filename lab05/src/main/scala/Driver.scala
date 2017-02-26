@@ -92,8 +92,7 @@ object Lab05 {
 
 		// Generate Output File
         val writer = new PrintWriter(new File("output.txt"))
-		new_clusters.foreach(x => x._2.foreach(y => writer.write(x._1 + ":\t" + y)))
-		// result.foreach(x => writer.write(x._1 + "\t" + x._2 + "\t" + x._3 + "\n"))
+		new_clusters.foreach(x => x._2.foreach(y => writer.write(x._1 + "\t" + y + "\n")))
         writer.close()
     }
 }
