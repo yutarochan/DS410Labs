@@ -25,7 +25,7 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
     }
 
     def step(c:Array[(Int, List[Double])], samples:org.apache.spark.rdd.RDD[(Long, Array[Double])]) : Array[(Int, List[Double])] = {
-            val clusters = sc.broadcast(c)
+            val clusters = Lab05.sc.broadcast(c)
             val dist = samples.flatMap{ case(sampleID, sample) => clusters.value.map{
                 case (clusterID, cluster) => (sampleID, (clusterID, Distance(sample, cluster)))
                 }
