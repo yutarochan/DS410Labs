@@ -25,29 +25,14 @@ object Lab05 {
 	private final val CORE_SITE_CONFIG_PATH = new Path("/usr/hdp/current/hadoop-client/conf/core-site.xml")
 	private final val HDFS_SITE_CONFIG_PATH = new Path("/usr/hdp/current/hadoop-client/conf/hdfs-site.xml")
 
-    def initialCluster(nb_cluster:Int, nb_feature:Int) : Array[(Int, Array[Double])] = {
-        var clusters = Array.ofDim[(Int, Array[Double])](nb_cluster)
-        for (i <- 0 to nb_cluster-1) {
-            clusters(i) = (i, Array.fill(nb_feature){scala.util.Random.nextDouble()} )
-        }
-        return clusters
-    }
-
-    def Distance(a:Array[Double], b:Array[Double]) : Double = {
-        assert(a.length == b.length, "Distance(): features dim does not match.")
-        var dist = 0.0
-        for (i <- 0 to a.length-1) {
-            dist = dist + math.pow(a(i) - b(i), 2)
-        }
-        return math.sqrt(dist)
-    }
-
-    // def step(Array[(Int, Array[Double])]) : Array[(Int, Array[Double])] = {}
+	// Spark Context & Configurations
+	final val conf = new SparkConf().setMaster(SPARK_MASTER).setAppName(APPLICATION_NAME)
+	final val sc = new SparkContext(conf)
 
     def main(args: Array[String]): Unit = {
         // Configure SparkContext
-		val conf = new SparkConf().setMaster(SPARK_MASTER).setAppName(APPLICATION_NAME)
-		val sc = new SparkContext(conf)
+		// val conf = new SparkConf().setMaster(SPARK_MASTER).setAppName(APPLICATION_NAME)
+		// val sc = new SparkContext(conf)
 
         // Configure HDFS
 		val configuration = new Configuration();
