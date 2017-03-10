@@ -24,6 +24,30 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
         return math.sqrt(dist)
     }
 
+    def for_step(c:Array[(Int, List[Double])], samples:org.apache.spark.rdd.RDD[(Long, Array[Double])]) : Array[(Int, List[Double])] = {
+        // Broadcast Cluster Centroids
+        val clusters = Lab05.sc.broadcast(c)
+
+        // Compute Distances
+        val dist = samples.flatMap{ case(sampleID, sample) => clusters.value.map{ case (clusterID, cluster) => (sampleID, (clusterID, Distance(sample, cluster))) }}
+
+        // Map New Labels
+        val labels = dist.reduceByKey((a, b) => (if (a._2 > b._2) b; else a)).map(t => (t._1, t._2._1))
+        // var new_clusters = Array.ofDim[(Int, Array[Double])](nb_cluster)
+
+        var new_clusters = labels.combineByKey(
+            v => (v, 1),
+            (acc:(Int, Int), v) => (Sum(acc._1, v._2), acc._2+1),
+            (acc1:(Int, Int), acc2:(Int, Int) => (Sum(acc._1, acc._2), acc._1+acc._2))
+        ).map{ case (k, v) => (k, v._1 / v._2.toFloat) }.collectAsMap()
+
+        // Map New Clusters
+        // val new_clusters_list = new_clusters.map(s => (s._1, s._2.toList))
+        // return new_clusters_list
+
+        return new_clusters
+    }
+
     def step(c:Array[(Int, List[Double])], samples:org.apache.spark.rdd.RDD[(Long, Array[Double])]) : Array[(Int, List[Double])] = {
             val clusters = Lab05.sc.broadcast(c)
             val dist = samples.flatMap{ case(sampleID, sample) => clusters.value.map{
