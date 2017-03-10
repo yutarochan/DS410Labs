@@ -24,7 +24,7 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
         return math.sqrt(dist)
     }
 
-    def for_step(c:Array[(Int, List[Double])], samples:org.apache.spark.rdd.RDD[(Long, Array[Double])]) : Array[(Int, List[Double])] = {
+    def dist_step(c:Array[(Int, List[Double])], samples:org.apache.spark.rdd.RDD[(Long, Array[Double])]) : Array[(Int, List[Double])] = {
         // Broadcast Cluster Centroids
         val clusters = Lab05.sc.broadcast(c)
 
@@ -49,7 +49,7 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
         return new_clusters
     }
 
-    def step(c:Array[(Int, List[Double])], samples:org.apache.spark.rdd.RDD[(Long, Array[Double])]) : Array[(Int, List[Double])] = {
+    def for_step(c:Array[(Int, List[Double])], samples:org.apache.spark.rdd.RDD[(Long, Array[Double])]) : Array[(Int, List[Double])] = {
             val clusters = Lab05.sc.broadcast(c)
             val dist = samples.flatMap{ case(sampleID, sample) => clusters.value.map{
                 case (clusterID, cluster) => (sampleID, (clusterID, Distance(sample, cluster)))
@@ -73,19 +73,19 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
             return new_clusters_list
     }
 
-    def run(samples:org.apache.spark.rdd.RDD[(Long, Array[Double])], max_iter:Int) : Unit = {
+    def dist_run(samples:org.apache.spark.rdd.RDD[(Long, Array[Double])], max_iter:Int) : Unit = {
         var i:Int = 0
         val t0 = System.nanoTime()
         centers = initialize(samples)
         while(i < max_iter) {
-            centers = step(centers, samples)
+            centers = dist_step(centers, samples)
             i += 1
         }
         val t1 = System.nanoTime()
         println("Elapsed time: " + (t1-t0)/10e9 + "s.")
     }
 
-    def run_for(samples:org.apache.spark.rdd.RDD[(Long, Array[Double])], max_iter:Int) : Unit = {
+    def for_run(samples:org.apache.spark.rdd.RDD[(Long, Array[Double])], max_iter:Int) : Unit = {
         var i:Int = 0
         val t0 = System.nanoTime()
         centers = initialize(samples)
