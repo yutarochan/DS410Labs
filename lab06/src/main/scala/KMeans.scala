@@ -38,7 +38,7 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
         // Compute Clustter Means
         val countComb = (v) => (v, 1)
         var new_clusters = labels.combineByKey(
-            (v) => (v, 1),
+            v => (v, 1),
             (acc:(Int, Int), v) => (acc._1 + v, acc._2 + 1),
             (acc1:(Int, Int), acc2:(Int, Int)) => (acc1._1 + acc2._1, acc1._2 + acc2._2)
         ).map{ case (k, v) => (k, v._1 / v._2.toFloat) }.collectAsMap()
