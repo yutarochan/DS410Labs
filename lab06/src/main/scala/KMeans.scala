@@ -70,6 +70,7 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
                 }
             }
             val new_clusters_list = new_clusters.map(s => (s._1, s._2.toList))
+            println(new_clusters)
             return new_clusters_list
     }
 
