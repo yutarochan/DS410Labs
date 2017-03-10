@@ -84,4 +84,16 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
         val t1 = System.nanoTime()
         println("Elapsed time: " + (t1-t0)/10e9 + "s.")
     }
+
+    def run_for(samples:org.apache.spark.rdd.RDD[(Long, Array[Double])], max_iter:Int) : Unit = {
+        var i:Int = 0
+        val t0 = System.nanoTime()
+        centers = initialize(samples)
+        while(i < max_iter) {
+            centers = for_step(centers, samples)
+            i += 1
+        }
+        val t1 = System.nanoTime()
+        println("Elapsed time: " + (t1-t0)/10e9 + "s.")
+    }
 }
