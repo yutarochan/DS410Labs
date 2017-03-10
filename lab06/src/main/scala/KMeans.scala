@@ -36,7 +36,7 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
         // var new_clusters = Array.ofDim[(Int, Array[Double])](nb_cluster)
 
         var new_clusters = labels.combineByKey(
-            v => (v, 1),
+            (v) => (v._2, 1),
             (acc:(Int, Int), v) => (acc._1 + v._2, acc._2+1),
             (acc1:(Int, Int), acc2:(Int, Int)) => (acc._1 + acc._2, acc._1+acc._2)
         ).map{ case (k, v) => (k, v._1 / v._2.toFloat) }.collectAsMap()
