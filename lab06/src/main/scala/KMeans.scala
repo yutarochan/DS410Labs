@@ -36,7 +36,6 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
         // var new_clusters = Array.ofDim[(Int, Array[Double])](nb_cluster)
 
         // Compute Clustter Means
-        val countComb = (v) => (v, 1)
         var new_clusters = labels.combineByKey(
             v => (v, 1),
             (acc:(Int, Int), v) => (acc._1 + v, acc._2 + 1),
