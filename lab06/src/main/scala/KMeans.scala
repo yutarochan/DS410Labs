@@ -35,10 +35,12 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
         val labels = dist.reduceByKey((a, b) => (if (a._2 > b._2) b; else a)).map(t => (t._1, t._2._1))
         // var new_clusters = Array.ofDim[(Int, Array[Double])](nb_cluster)
 
+        // Compute Clustter Means
+        val countComb = (v) => (v, 1)
         var new_clusters = labels.combineByKey(
             (v) => (v, 1),
             (acc:(Int, Int), v) => (acc._1 + v, acc._2 + 1),
-            (acc1:(Int, Int), acc2:(Int, Int)) => (acc._1 + acc._2, acc._1+acc._2)
+            (acc1:(Int, Int), acc2:(Int, Int)) => (acc1._1 + acc2._1, acc1._2 + acc2._2)
         ).map{ case (k, v) => (k, v._1 / v._2.toFloat) }.collectAsMap()
 
         // Map New Clusters
