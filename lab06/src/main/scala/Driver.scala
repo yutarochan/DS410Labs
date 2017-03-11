@@ -47,12 +47,12 @@ object Lab05 {
 		val clusters = List(3, 6, 9)
 
 		// Define Time Counters
-		var for_time = List()
-		var dis_time = List()
+		var for_time = List[Double]()
+		var dis_time = List[Double]()
 
 		// Define Centers
-		var for_centers = List()
-		var dis_centers = List()
+		var for_centers = List[Array[(Int, List[Double])]]()
+		var dis_centers = List[Array[(Int, List[Double])]]()
 
 		// Perform Iterative K-Means
 		for (i <- clusters) {
