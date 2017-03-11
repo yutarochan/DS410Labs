@@ -72,12 +72,10 @@ object Lab05 {
 
 		// Output Dist-Loop Centers
 		writer = new PrintWriter(new File("dist_centers.txt"))
-		index = 1
 		for (i <- dis_centers) {
-			writer.write("[CLUSTER]: " + clusters(index))
+			writer.write("[CLUSTER]")
 			i.foreach(x => x._2.foreach(y => writer.write(x._1 + "\t" + y + "\n")))
 			writer.write("\n")
-			index += 1
 		}
 		writer.close()
 
