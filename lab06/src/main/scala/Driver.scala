@@ -62,8 +62,8 @@ object Lab05 {
 		}
 
 		// Sort Centers
-		for_centers = for_centers.sortBy(_._1)
-		dis_centers = dis_centers.sortBy(_._1)
+		for_centers = for_centers.toList.sortBy(_._1)
+		dis_centers = dis_centers.toList.sortBy(_._1)
 
 		// Output For-Loop Centers
 		var writer = new PrintWriter(new File("for_centers.txt"))
