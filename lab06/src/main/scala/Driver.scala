@@ -47,12 +47,12 @@ object Lab05 {
 		val clusters = List(3, 6, 9)
 
 		// Define Time Counters
-		var for_time:Array[Double] = _
-		var dis_time:Array[Double] = _
+		var for_time = Array()
+		var dis_time = Array()
 
 		// Define Centers
-		var for_centers:Array[Array[(Int, List[Double])]] = _
-		var dis_centers:Array[Array[(Int, List[Double])]] = _
+		var for_centers = Array()
+		var dis_centers = Array()
 
 		// Perform Iterative K-Means
 		for (i <- clusters) {
@@ -64,7 +64,7 @@ object Lab05 {
 			dis_time :+= k_dis.dis_run(samples, 100)
 			dis_centers :+= k_dis.centers
 		}
-		
+
 		// Generate Output File
         // val writer = new PrintWriter(new File("output.txt"))
 		// new_clusters.foreach(x => x._2.foreach(y => writer.write(x._1 + "\t" + y + "\n")))
