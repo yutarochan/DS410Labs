@@ -1,6 +1,7 @@
 import scala.util.Try
 import java.io.PrintWriter
 import java.io.File
+import org.apache.spark.sql.functions._
 
 class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
     val nb_cluster:Int = k
@@ -33,18 +34,16 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
 
         // Map New Labels
         val labels = dist.reduceByKey((a, b) => (if (a._2 > b._2) b; else a)).map(t => (t._1, t._2._1))
-        // var new_clusters = Array.ofDim[(Int, Array[Double])](nb_cluster)
 
-        // Compute Clustter Means
-        var new_clusters = labels.combineByKey(
-            v => (v, 1),
-            (acc:(Int, Int), v2) => (acc._1 + v2, acc._2 + 1),
-            (acc1:(Int, Int), acc2:(Int, Int)) => (acc1._1 + acc2._1, acc1._2 + acc2._2)
-        ).map{ case (k, v) => (k.toInt, v._1 / v._2.toDouble) }.groupByKey().mapValues(_.toList).collect()
+        // Join Samples and to Cluster ID & Remap Order
+        val clusterKey = samples.join(labels).map(x => (x._2._2, (x._1, x._2._1)))
 
-        // Map New Clusters
-        // val new_clusters_list = new_clusters.map(s => (s._1, s._2.toList))
-        // return new_clusters_list
+        // Compute New Cluster Means
+        var new_clusters = clusterKey.combineByKey(
+            (v) => (v._2, 1),
+            (acc:(Array[Double], Int), v) => (acc._1.zip(v._2).map(x => x._1 + x._2), acc._2 + 1),
+            (acc1:(Array[Double], Int), acc2:(Array[Double], Int)) => (acc1._1.zip(acc2._1).map(x => x._1 + x._2), acc1._2 + acc2._2)
+        ).map{ case (k, v) => (k, v._1.map(x => x / v._2.toDouble)) }
 
         return new_clusters
     }
@@ -70,7 +69,6 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
                 }
             }
             val new_clusters_list = new_clusters.map(s => (s._1, s._2.toList))
-            println(new_clusters.toString())
             return new_clusters_list
     }
 
