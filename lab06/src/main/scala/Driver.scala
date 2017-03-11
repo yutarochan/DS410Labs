@@ -64,7 +64,7 @@ object Lab05 {
 		// Output For-Loop Centers
 		var writer = new PrintWriter(new File("for_centers.txt"))
 		for (i <- for_centers) {
-			writer.write("[CLUSTER]")
+			writer.write("[CLUSTER]\n")
 			i.foreach(x => x._2.foreach(y => writer.write(x._1 + "\t" + y + "\n")))
 			writer.write("\n")
 		}
