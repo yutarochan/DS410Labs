@@ -66,7 +66,7 @@ object Lab05 {
 		}
 
 		// Output For-Loop Centers
-		val writer = new PrintWriter(new File("for_centers.txt"))
+		var writer = new PrintWriter(new File("for_centers.txt"))
 		var index = 1
 		for (i <- for_centers) {
 			writer.write("[CLUSTER]: " + clusters(index))
