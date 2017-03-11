@@ -61,7 +61,7 @@ object Lab05 {
 			for_centers :+= k_for.centers
 
 			val k_dis = new Kmeans(i, 4)
-			dis_time :+= k_dis.dis_run(samples, 100)
+			dis_time :+= k_dis.dist_run(samples, 100)
 			dis_centers :+= k_dis.centers
 		}
 
