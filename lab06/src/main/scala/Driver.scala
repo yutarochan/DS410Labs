@@ -43,13 +43,28 @@ object Lab05 {
         val lines = sc.textFile("/ds410/lab5/iris.data")
         val samples  = lines.map(line => line.split(",").slice(0,4).map(_.toDouble)).zipWithIndex().map(sample => (sample._2, sample._1))
 
-        // Perform K-Means
-        val k = new Kmeans(3, 4)
-        // k.for_run(samples, 100)
-		k.dist_run(samples, 100)
+		// Define Cluster Counts
+		val clusters = List(3, 6, 9)
 
-        val centers = k.centers
+		// Define Time Counters
+		var for_time:Array[Double] = _
+		var dis_time:Array[Double] = _
 
+		// Define Centers
+		var for_centers:Array[Array[(Int, List[Double])]] = _
+		var dis_centers:Array[Array[(Int, List[Double])]] = _
+
+		// Perform Iterative K-Means
+		for (i <- clusters) {
+			val k_for = new Kmeans(i, 4)
+			for_time :+= k_for.for_run(samples, 100)
+			for_centers :+= k_for.centers
+
+			val k_dis = new Kmeans(i, 4)
+			dis_time :+= k_dis.dis_run(samples, 100)
+			dis_centers :+= k_dis.centers
+		}
+		
 		// Generate Output File
         // val writer = new PrintWriter(new File("output.txt"))
 		// new_clusters.foreach(x => x._2.foreach(y => writer.write(x._1 + "\t" + y + "\n")))

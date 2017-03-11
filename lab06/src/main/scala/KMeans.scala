@@ -72,7 +72,7 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
             return new_clusters_list
     }
 
-    def dist_run(samples:org.apache.spark.rdd.RDD[(Long, Array[Double])], max_iter:Int) : Unit = {
+    def dist_run(samples:org.apache.spark.rdd.RDD[(Long, Array[Double])], max_iter:Int) : Double = {
         var i:Int = 0
         val t0 = System.nanoTime()
         centers = initialize(samples)
@@ -81,10 +81,11 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
             i += 1
         }
         val t1 = System.nanoTime()
-        println("Elapsed time: " + (t1-t0)/10e9 + "s.")
+        // println("Elapsed time: " + (t1-t0)/10e9 + "s.")
+        return (t1-t0)/10e9
     }
 
-    def for_run(samples:org.apache.spark.rdd.RDD[(Long, Array[Double])], max_iter:Int) : Unit = {
+    def for_run(samples:org.apache.spark.rdd.RDD[(Long, Array[Double])], max_iter:Int) : Double = {
         var i:Int = 0
         val t0 = System.nanoTime()
         centers = initialize(samples)
@@ -93,6 +94,7 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
             i += 1
         }
         val t1 = System.nanoTime()
-        println("Elapsed time: " + (t1-t0)/10e9 + "s.")
+        // println("Elapsed time: " + (t1-t0)/10e9 + "s.")
+        return (t1-t0)/10e9
     }
 }
