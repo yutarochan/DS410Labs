@@ -43,7 +43,7 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
             (v) => (v._2, 1),
             (acc:(Array[Double], Int), v) => (acc._1.zip(v._2).map(x => x._1 + x._2), acc._2 + 1),
             (acc1:(Array[Double], Int), acc2:(Array[Double], Int)) => (acc1._1.zip(acc2._1).map(x => x._1 + x._2), acc1._2 + acc2._2)
-        ).map{ case (k, v) => (k, v._1.map(x => x / v._2.toDouble)) }
+        ).map{ case (k, v) => (k, v._1.map(x => x / v._2.toDouble)) }.collect()
 
         return new_clusters
     }
