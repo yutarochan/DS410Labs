@@ -30,10 +30,6 @@ object Lab05 {
 	final val sc = new SparkContext(conf)
 
     def main(args: Array[String]): Unit = {
-        // Configure SparkContext
-		// val conf = new SparkConf().setMaster(SPARK_MASTER).setAppName(APPLICATION_NAME)
-		// val sc = new SparkContext(conf)
-
         // Configure HDFS
 		val configuration = new Configuration();
 		configuration.addResource(CORE_SITE_CONFIG_PATH);
@@ -67,12 +63,10 @@ object Lab05 {
 
 		// Output For-Loop Centers
 		var writer = new PrintWriter(new File("for_centers.txt"))
-		var index = 1
 		for (i <- for_centers) {
-			writer.write("[CLUSTER]: " + clusters(index))
+			writer.write("[CLUSTER]")
 			i.foreach(x => x._2.foreach(y => writer.write(x._1 + "\t" + y + "\n")))
 			writer.write("\n")
-			index += 1
 		}
         writer.close()
 
