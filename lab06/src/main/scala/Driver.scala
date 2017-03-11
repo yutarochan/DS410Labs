@@ -61,6 +61,10 @@ object Lab05 {
 			dis_centers :+= k_dis.centers
 		}
 
+		// Sort Centers
+		for_centers = for_centers.sortBy(_._1)
+		dis_centers = dis_centers.sortBy(_._1)
+
 		// Output For-Loop Centers
 		var writer = new PrintWriter(new File("for_centers.txt"))
 		for (i <- for_centers) {
@@ -73,7 +77,7 @@ object Lab05 {
 		// Output Dist-Loop Centers
 		writer = new PrintWriter(new File("dist_centers.txt"))
 		for (i <- dis_centers) {
-			writer.write("[CLUSTER]")
+			writer.write("[CLUSTER]\n")
 			i.foreach(x => x._2.foreach(y => writer.write(x._1 + "\t" + y + "\n")))
 			writer.write("\n")
 		}
