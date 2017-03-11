@@ -45,7 +45,8 @@ object Lab05 {
 
         // Perform K-Means
         val k = new Kmeans(3, 4)
-        k.for_run(samples, 100)
+        // k.for_run(samples, 100)
+		k.dist_run(samples, 100)
 
         val centers = k.centers
 
