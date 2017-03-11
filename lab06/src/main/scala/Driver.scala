@@ -61,10 +61,6 @@ object Lab05 {
 			dis_centers :+= k_dis.centers
 		}
 
-		// Sort Centers
-		for_centers = for_centers.toList.sortWith( (x,y) => x._2 < y._2 )
-		dis_centers = dis_centers.toList.sortWith( (x,y) => x._2 < y._2 )
-
 		// Output For-Loop Centers
 		var writer = new PrintWriter(new File("for_centers.txt"))
 		for (i <- for_centers) {
