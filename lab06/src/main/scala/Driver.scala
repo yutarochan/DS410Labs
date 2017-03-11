@@ -65,9 +65,36 @@ object Lab05 {
 			dis_centers :+= k_dis.centers
 		}
 
-		// Generate Output File
-        // val writer = new PrintWriter(new File("output.txt"))
-		// new_clusters.foreach(x => x._2.foreach(y => writer.write(x._1 + "\t" + y + "\n")))
-        // writer.close()
+		// Output For-Loop Centers
+		val writer = new PrintWriter(new File("for_centers.txt"))
+		var index = 1
+		for (i <- for_centers) {
+			writer.write("[CLUSTER]: " + clusters(index))
+			i.foreach(x => x._2.foreach(y => writer.write(x._1 + "\t" + y + "\n")))
+			writer.write("\n")
+			index += 1
+		}
+        writer.close()
+
+		// Output Dist-Loop Centers
+		val writer = new PrintWriter(new File("dist_centers.txt"))
+		index = 1
+		for (i <- dis_centers) {
+			writer.write("[CLUSTER]: " + clusters(index))
+			i.foreach(x => x._2.foreach(y => writer.write(x._1 + "\t" + y + "\n")))
+			writer.write("\n")
+			index += 1
+		}
+		writer.close()
+
+		// Output For-Loop Times
+		val writer = new PrintWriter(new File("for_times.txt"))
+		for_time.foreach(x => writer.write(x + "\n"))
+        writer.close()
+
+		// Output For-Loop Times
+		val writer = new PrintWriter(new File("dis_times.txt"))
+		dis_time.foreach(x => writer.write(x + "\n"))
+		writer.close()
     }
 }
