@@ -39,6 +39,7 @@ class Kmeans (val k:Int, val f:Int) extends java.io.Serializable{
         val clusterKey = samples.join(labels).map(x => (x._2._2, (x._1, x._2._1)))
 
         // Compute New Cluster Means
+
         var new_clusters = clusterKey.combineByKey(
             (v) => (v._2, 1),
             (acc:(Array[Double], Int), v) => (acc._1.zip(v._2).map(x => x._1 + x._2), acc._2 + 1),
