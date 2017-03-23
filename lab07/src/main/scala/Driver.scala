@@ -10,7 +10,6 @@ import scala.collection.JavaConversions
 import scala.io.Source
 
 object Demo {
-
     // Application Specific Variables
     private final val SPARK_MASTER = "yarn-client"
     private final val APPLICATION_NAME = "lab7"
