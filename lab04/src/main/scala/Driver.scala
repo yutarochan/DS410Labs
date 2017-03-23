@@ -61,7 +61,9 @@ object Lab04 {
 		val nodeCount = inc_group.union(dec_group).groupByKey.mapValues(_.flatMap(x=>x).toList.length)
 
 		// Compute Network Cluster Coefficient
-		val results = triCount.fullOuterJoin(nodeCount).mapValues(x => if (x._1 != None) (x._1.get, x._1.get / (x._2.get * (x._2.get-1) / 2.0).toDouble) else (0, 0)).sortByKey().collect()
+		val results = triCount.fullOuterJoin(nodeCount)
+			.mapValues(x => if (x._1 != None) (x._1.get, x._1.get / (x._2.get * (x._2.get-1) / 2.0).toDouble) else (0, 0))
+			.sortByKey().collect()
 
         // Generate Output File
         val writer = new PrintWriter(new File("output.txt"))
