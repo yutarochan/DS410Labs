@@ -40,7 +40,7 @@ object Demo {
             val papers = Helper.parseData(lines)
             val featureVectors = FeatureExtraction.constructFeatureVectorsFromPapers(papers).cache()
             val start = System.nanoTime
-            val clustersOfPapers = new KMeansClustering(3, 100).clusterPapers(featureVectors)
+            val clustersOfPapers = new KMeansClustering(30, 100).clusterPapers(featureVectors)
             val end = System.nanoTime
 
             println((end - start) / 10e9 + "s")

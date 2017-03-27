@@ -1,1 +1,1 @@
-spark-submit --master yarn-client --driver-memory 2g --executor-memory 2g --num-executors 3 --executor-cores 8 lab7.jar kmeans
+spark-submit --master yarn-client --driver-memory 10g --executor-memory 10g --num-executors 5 --executor-cores 16 target/scala-2.10/lab7_2.10-1.0.jar  kmeans
