@@ -1,6 +1,8 @@
 package lab7
 
+import java.io.File
 import java.util.Arrays
+import java.io.PrintWriter
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
