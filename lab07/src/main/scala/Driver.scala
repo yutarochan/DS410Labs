@@ -45,11 +45,11 @@ object Demo {
 
             // Compute Clusters
             val start = System.nanoTime
-            val clustersOfPapers = new KMeansClustering(15, 100).clusterPapers(featureVectors)
+            val clustersOfPapers = new KMeansClustering(3 100).clusterPapers(featureVectors)
             val end = System.nanoTime
 
             // Output Cluster
-            val predictions = clusterPapers.predict(papers).collect()
+            val predictions = clustersOfPapers.predict(papers).collect()
             println(predictions)
 
             // Record Output Time
