@@ -45,7 +45,7 @@ object Demo {
 
             // Compute Clusters
             val start = System.nanoTime
-            val clustersOfPapers = new KMeansClustering(3 100).clusterPapers(featureVectors)
+            val clustersOfPapers = new KMeansClustering(3, 100).clusterPapers(featureVectors)
             val end = System.nanoTime
 
             // Output Cluster
