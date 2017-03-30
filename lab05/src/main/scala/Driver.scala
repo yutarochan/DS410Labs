@@ -1,5 +1,5 @@
 /*
- * DS410 - Lab 05: Network Clustering Coefficient
+ * DS410 - Lab 05: K-Means - Single Iteration
  * Author: Yuya Jeremy Ong (yjo5006@psu.edu)
  */
 import java.io.PrintWriter

@@ -36,13 +36,20 @@ object Demo {
 
         // Exhibit: KMeans Clustering
         if(args(0) == "kmeans") {
+            // Process Data from File
             val lines = sc.textFile(FileSystem.get(configuration).getUri + DATASET_PATH_PUBMED)
             val papers = Helper.parseData(lines)
+
+            // Generate Feature Vectors
             val featureVectors = FeatureExtraction.constructFeatureVectorsFromPapers(papers).cache()
+
+            // Compute Clusters
             val start = System.nanoTime
-            val clustersOfPapers = new KMeansClustering(30, 100).clusterPapers(featureVectors)
+            val clustersOfPapers = new KMeansClustering(15, 100).clusterPapers(featureVectors)
             val end = System.nanoTime
 
+            // Output Cluster
+            // Record Output Time
             println((end - start) / 10e9 + "s")
         }
     }
