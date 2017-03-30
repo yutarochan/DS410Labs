@@ -54,7 +54,7 @@ object Demo {
             val results = clustersOfPapers.collect()
             var writer = new PrintWriter(new File("centers.txt"))
             for (i <- results) {
-                writer.write(i)
+                writer.write(int(i) + "\n")
             }
             writer.close()
 
