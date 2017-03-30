@@ -49,8 +49,7 @@ object Demo {
             val end = System.nanoTime
 
             // Output Cluster
-            val result = clustersOfPapers.collect()
-            println(result)
+            for (p <- clustersOfPapers) println(p)
 
             // Record Output Time
             println((end - start) / 10e9 + "s")
