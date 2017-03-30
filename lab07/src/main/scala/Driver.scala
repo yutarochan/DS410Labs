@@ -49,6 +49,9 @@ object Demo {
             val end = System.nanoTime
 
             // Output Cluster
+            val predictions = clusterPapers.predict(papers).collect()
+            println(predictions)
+
             // Record Output Time
             println((end - start) / 10e9 + "s")
         }
