@@ -51,8 +51,9 @@ object Demo {
             val end = System.nanoTime
 
             // Output Cluster
+            val results = clustersOfPapers.collect()
             var writer = new PrintWriter(new File("centers.txt"))
-            for (i <- clustersOfPapers) {
+            for (i <- results) {
                 writer.write(i)
             }
             writer.close()
