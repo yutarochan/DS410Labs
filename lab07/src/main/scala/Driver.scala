@@ -49,6 +49,12 @@ object Demo {
             val end = System.nanoTime
 
             // Output Cluster
+            var writer = new PrintWriter(new File("centers.txt"))
+            for (i <- clustersOfPapers) {
+                writer.write(i)
+            }
+            writer.close()
+
             for (p <- clustersOfPapers) println(p)
 
             // Record Output Time
