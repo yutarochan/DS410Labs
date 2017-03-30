@@ -51,10 +51,10 @@ object Demo {
             val end = System.nanoTime
 
             // Output Cluster
-            val results = clustersOfPapers.collect()
+            val results = clustersOfPapers.map(x => (x, 1)).groupByKey().map(x => (x._1, x._2.sum)).collect()
             var writer = new PrintWriter(new File("centers.txt"))
             for (i <- results) {
-                writer.write(i + "\n")
+                writer.write(i._1 + "\t" + ._2 + "\n")
             }
             writer.close()
 
