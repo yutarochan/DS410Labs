@@ -47,12 +47,12 @@ object Demo {
 
             // Compute Clusters
             val start = System.nanoTime
-            val clustersOfPapers = new KMeansClustering(15, 100).clusterPapers(featureVectors)
+            val clustersOfPapers = new KMeansClustering(30, 100).clusterPapers(featureVectors)
             val end = System.nanoTime
 
             // Output Cluster
             val results = clustersOfPapers.map(x => (x, 1)).groupByKey().map(x => (x._1, x._2.sum)).collect()
-            var writer = new PrintWriter(new File("centers_15.txt"))
+            var writer = new PrintWriter(new File("centers_30.txt"))
             for (i <- results) {
                 writer.write(i._1 + "\t" + i._2 + "\n")
             }
